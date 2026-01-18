@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import ImagePage from './Image.jsx';
 import { 
   Search, 
   Menu, 
@@ -51,8 +52,8 @@ const PROMPTS_DATA = [
   }
 ];
 
-const SidebarItem = ({ icon: Icon, label, active = false }) => (
-  <div className={`flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-colors ${active ? 'bg-gray-100 text-black font-medium' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'}`}>
+const SidebarItem = ({ icon: Icon, label, active = false, onClick }) => (
+  <div onClick={onClick} className={`flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer transition-colors ${active ? 'bg-gray-100 text-black font-medium' : 'text-gray-500 hover:bg-gray-50 hover:text-gray-900'}`}>
     <Icon size={20} />
     <span>{label}</span>
   </div>
@@ -99,6 +100,39 @@ const PromptCard = ({ item }) => {
 
 export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  
+  // 1. Initialize state based on the current URL path
+  const [currentRoute, setCurrentRoute] = useState(() => {
+    const path = window.location.pathname.slice(1); // Remove leading slash
+    return path === '' ? 'all' : path;
+  });
+
+  // 2. Handle browser back/forward buttons
+  useEffect(() => {
+    const handlePopState = () => {
+      const path = window.location.pathname.slice(1);
+      setCurrentRoute(path === '' ? 'all' : path);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  // 3. Function to update URL and State together
+  const navigate = (route) => {
+    setCurrentRoute(route);
+    const path = route === 'all' ? '/' : `/${route}`;
+    window.history.pushState({}, '', path);
+  };
+
+  const getPageTitle = () => {
+    switch (currentRoute) {
+      case 'images': return 'Image Generation';
+      case 'emails': return 'Email Templates';
+      case 'code': return 'Code Snippets';
+      case 'settings': return 'Settings';
+      default: return 'Recent Highlights';
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex font-sans text-slate-900">
@@ -111,11 +145,11 @@ export default function App() {
         </div>
 
         <nav className="flex-1 px-4 space-y-1">
-          <SidebarItem icon={LayoutGrid} label="All Prompts" active />
-          <SidebarItem icon={ImageIcon} label="Images" />
-          <SidebarItem icon={Mail} label="Emails" />
-          <SidebarItem icon={Code} label="Code" />
-          <SidebarItem icon={Settings} label="Settings" />
+          <SidebarItem icon={LayoutGrid} label="All Prompts" active={currentRoute === 'all'} onClick={() => navigate('all')} />
+          <SidebarItem icon={ImageIcon} label="Images" active={currentRoute === 'images'} onClick={() => navigate('images')} />
+          <SidebarItem icon={Mail} label="Emails" active={currentRoute === 'emails'} onClick={() => navigate('emails')} />
+          <SidebarItem icon={Code} label="Code" active={currentRoute === 'code'} onClick={() => navigate('code')} />
+          <SidebarItem icon={Settings} label="Settings" active={currentRoute === 'settings'} onClick={() => navigate('settings')} />
         </nav>
 
         <div className="p-4 border-t border-gray-100">
@@ -155,7 +189,7 @@ export default function App() {
 
               {/* Desktop: Header Title */}
               <h1 className="hidden md:block text-xl font-bold text-gray-800">
-Recent Highlights 
+                {getPageTitle()}
               </h1>
 
               {/* Desktop Search & Profile */}
@@ -191,11 +225,20 @@ Recent Highlights
 
         {/* Content Grid */}
         <div className="p-4 md:p-8 max-w-7xl mx-auto w-full">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {PROMPTS_DATA.map((item) => (
-              <PromptCard key={item.id} item={item} />
-            ))}
-          </div>
+          {currentRoute === 'images' ? (
+            <ImagePage />
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {PROMPTS_DATA.filter(item => {
+                if (currentRoute === 'all') return true;
+                if (currentRoute === 'images') return item.category === 'Image Generation' || item.category === 'Design';
+                if (currentRoute === 'emails') return item.category === 'Copywriting';
+                return false;
+              }).map((item) => (
+                <PromptCard key={item.id} item={item} />
+              ))}
+            </div>
+          )}
         </div>
 
       </main>
@@ -206,14 +249,14 @@ Recent Highlights
            <div className="w-64 bg-white h-full p-4 flex flex-col" onClick={e => e.stopPropagation()}>
               <div className="mb-6 flex items-center gap-2">
                 <div className="bg-black text-white p-1.5 rounded-md font-bold">P</div>
-                <span className="font-bold text-lg">PromptFolio</span>
+                <span className="font-bold text-lg">Prompt</span>
               </div>
               <nav className="space-y-1">
-                <SidebarItem icon={LayoutGrid} label="All Prompts" active />
-                <SidebarItem icon={ImageIcon} label="Images" />
-                <SidebarItem icon={Mail} label="Emails" />
-                <SidebarItem icon={Code} label="Code" />
-                <SidebarItem icon={Settings} label="Settings" />
+                <SidebarItem icon={LayoutGrid} label="All Prompts" active={currentRoute === 'all'} onClick={() => { navigate('all'); setIsMobileMenuOpen(false); }} />
+                <SidebarItem icon={ImageIcon} label="Images" active={currentRoute === 'images'} onClick={() => { navigate('images'); setIsMobileMenuOpen(false); }} />
+                <SidebarItem icon={Mail} label="Emails" active={currentRoute === 'emails'} onClick={() => { navigate('emails'); setIsMobileMenuOpen(false); }} />
+                <SidebarItem icon={Code} label="Code" active={currentRoute === 'code'} onClick={() => { navigate('code'); setIsMobileMenuOpen(false); }} />
+                <SidebarItem icon={Settings} label="Settings" active={currentRoute === 'settings'} onClick={() => { navigate('settings'); setIsMobileMenuOpen(false); }} />
               </nav>
            </div>
         </div>
