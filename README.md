@@ -1,6 +1,3 @@
-Here is a **clean, professional README.md file only** — no extra explanation.
-
-You can copy and paste this directly into your project.
 
 ---
 
