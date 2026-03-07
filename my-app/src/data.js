@@ -391,6 +391,298 @@ export const IMAGE_DATA = [
     url: "https://images.unsplash.com/photo-1544472147-386052f6d0f6?auto=format&fit=crop&q=80&w=600",
     icon: Palette,
     badgeColor: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300"
+  },
+
+  // ── HOLLYWOOD ──
+  {
+    id: 28,
+    title: "Marvel-Style Superhero Pose",
+    tool: "Midjourney V6",
+    category: "Hollywood",
+    prompt: "Cinematic Marvel-style superhero standing on a rooftop, dramatic city backdrop, glowing armor, lightning effects, camera looking up, IMAX movie poster quality, 8k.",
+    url: "https://images.unsplash.com/photo-1626785774573-4b799314346d?auto=format&fit=crop&q=80&w=600",
+    icon: Star,
+    badgeColor: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300"
+  },
+  {
+    id: 29,
+    title: "Sci-Fi Space Opera (Interstellar)",
+    tool: "DALL-E 3",
+    category: "Hollywood",
+    prompt: "Lone astronaut standing before a massive wormhole in deep space, Interstellar movie style, awe-inspiring scale, cinematic grain, 8k resolution, emotional atmosphere.",
+    url: "https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&q=80&w=600",
+    icon: Rocket,
+    badgeColor: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
+  },
+  {
+    id: 30,
+    title: "Western Showdown (Spaghetti Style)",
+    tool: "Midjourney V6",
+    category: "Hollywood",
+    prompt: "Two gunslingers facing off at high noon in a dusty desert town, extreme close-up of eyes, wide-brimmed hats, golden hour light, cinematic spaghetti western style.",
+    url: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=600",
+    icon: Star,
+    badgeColor: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300"
+  },
+
+  // ── BOLLYWOOD ──
+  {
+    id: 31,
+    title: "Grand Bollywood Dance Number",
+    tool: "Midjourney V6",
+    category: "Bollywood",
+    prompt: "Lavish Bollywood dance sequence, colorful saree costumes, hundreds of dancers, ornate palace set design, confetti and flower petals raining, dramatic cinematic lighting.",
+    url: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=600",
+    icon: Star,
+    badgeColor: "bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300"
+  },
+  {
+    id: 32,
+    title: "Bollywood Romance — Swiss Alps",
+    tool: "Stable Diffusion XL",
+    category: "Bollywood",
+    prompt: "Bollywood romantic scene, couple in traditional Indian clothing, dancing in a flower-filled meadow with snow-capped Alps in background, dreamy soft lighting, vibrant colors.",
+    url: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=600",
+    icon: Star,
+    badgeColor: "bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300"
+  },
+  {
+    id: 33,
+    title: "Bollywood Action Hero",
+    tool: "Midjourney V6",
+    category: "Bollywood",
+    prompt: "Bollywood action hero slow-motion walk, suit and sunglasses, explosion behind him, low angle dramatic shot, intense expression, cinematic poster quality, 8k.",
+    url: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=600",
+    icon: Star,
+    badgeColor: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300"
+  },
+
+  // ── KOLLYWOOD (Tamil Cinema) ──
+  {
+    id: 34,
+    title: "Mass Hero Intro Shot (Rajinikanth Style)",
+    tool: "Midjourney V6",
+    category: "Kollywood",
+    prompt: "Iconic Tamil mass hero entry shot, coin flip in slow motion, sunglasses, leather jacket, silhouette against blazing sun, crowd cheering, ultra-cinematic, hyper-realistic.",
+    url: "https://images.unsplash.com/photo-1599839575945-a9e5af0c3fa5?auto=format&fit=crop&q=80&w=600",
+    icon: Star,
+    badgeColor: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300"
+  },
+  {
+    id: 35,
+    title: "Vikram-Style Vigilante",
+    tool: "Stable Diffusion XL",
+    category: "Kollywood",
+    prompt: "Dark masked vigilante in rain-soaked city alley, tattered black coat, intense glowing eyes, gritty noir lighting, Tamil action cinema style, ultra HD.",
+    url: "https://images.unsplash.com/photo-1605218427306-0333d9584266?auto=format&fit=crop&q=80&w=600",
+    icon: Star,
+    badgeColor: "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+  },
+  {
+    id: 36,
+    title: "Epic Stage (Ponniyin Selvan Style)",
+    tool: "Midjourney V6",
+    category: "Kollywood",
+    prompt: "Grand Chola empire warrior on horseback, golden armour, torch-lit ancient battlefield, epic scale crowd, Ponniyin Selvan cinematic aesthetic, dusk lighting, hyper-detailed.",
+    url: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=600",
+    icon: Star,
+    badgeColor: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300"
+  },
+
+  // ── KOREAN CINEMA ──
+  {
+    id: 37,
+    title: "K-Drama Rooftop Romance",
+    tool: "Niji Journey 6",
+    category: "Korean Cinema",
+    prompt: "Korean drama rooftop scene at night, young couple under fairy lights, city skyline below, soft cinematic bokeh, emotional lighting, high-end K-drama production style.",
+    url: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=600",
+    icon: Star,
+    badgeColor: "bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-300"
+  },
+  {
+    id: 38,
+    title: "Parasite-Style Social Contrast",
+    tool: "Midjourney V6",
+    category: "Korean Cinema",
+    prompt: "Split-frame cinematic shot: luxurious modern Korean mansion above vs cramped underground semi-basement below, stark social contrast, moody color grading, Parasite movie aesthetic.",
+    url: "https://images.unsplash.com/photo-1486718448742-163732cd1544?auto=format&fit=crop&q=80&w=600",
+    icon: Star,
+    badgeColor: "bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300"
+  },
+  {
+    id: 39,
+    title: "Squid Game Arena",
+    tool: "DALL-E 3",
+    category: "Korean Cinema",
+    prompt: "Massive surreal game arena, hundreds of players in green tracksuits, giant pink guards, brutal geometric stage, dramatic overhead shot, vivid and ominous lighting.",
+    url: "https://images.unsplash.com/photo-1635805737707-575885ab0820?auto=format&fit=crop&q=80&w=600",
+    icon: Star,
+    badgeColor: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300"
+  },
+
+  // ── JAPANESE CINEMA ──
+  {
+    id: 40,
+    title: "Samurai at Sunrise",
+    tool: "Midjourney V6",
+    category: "Japanese Cinema",
+    prompt: "Lone samurai standing on a misty mountain ridge at sunrise, katana drawn, cherry blossoms falling, Akira Kurosawa composition style, wabi-sabi aesthetic, 8k.",
+    url: "https://images.unsplash.com/photo-1549463844-913caf532655?auto=format&fit=crop&q=80&w=600",
+    icon: Star,
+    badgeColor: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300"
+  },
+  {
+    id: 41,
+    title: "Ghibli Forest Spirit",
+    tool: "Niji Journey 6",
+    category: "Japanese Cinema",
+    prompt: "Mystical forest spirit in an ancient Japanese cedar forest, glowing orbs of light, Studio Ghibli aesthetic, painterly watercolor details, soft ethereal atmosphere.",
+    url: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=600",
+    icon: Smile,
+    badgeColor: "bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-300"
+  },
+  {
+    id: 42,
+    title: "Cyberpunk Tokyo (Akira Style)",
+    tool: "Stable Diffusion XL",
+    category: "Japanese Cinema",
+    prompt: "Neo-Tokyo megacity at night, Akira anime style, motorbike at high speed leaving neon light trails, rain-soaked streets, dystopian atmosphere, cinematic wide angle.",
+    url: "https://images.unsplash.com/photo-1605218427306-0333d9584266?auto=format&fit=crop&q=80&w=600",
+    icon: Zap,
+    badgeColor: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300"
+  },
+
+  // ── FRENCH CINEMA ──
+  {
+    id: 43,
+    title: "French New Wave Café Scene",
+    tool: "Midjourney V6",
+    category: "French Cinema",
+    prompt: "Parisian café at dawn, black and white New Wave film style, young woman reading existentialist novel, cigarette smoke, cobblestone street outside, Godard cinematic composition.",
+    url: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80&w=600",
+    icon: Camera,
+    badgeColor: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
+  },
+  {
+    id: 44,
+    title: "Amélie-Style Montmartre",
+    tool: "DALL-E 3",
+    category: "French Cinema",
+    prompt: "Whimsical Montmartre alley, warm autumn colors, quirky street decorations, hand-painted signs, a red-dressed girl walking away, saturated warm Amélie movie color palette.",
+    url: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&q=80&w=600",
+    icon: Camera,
+    badgeColor: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300"
+  },
+
+  // ── ITALIAN CINEMA ──
+  {
+    id: 45,
+    title: "Neorealist Street Scene",
+    tool: "Midjourney V6",
+    category: "Italian Cinema",
+    prompt: "Post-war Italian neorealist street scene, 1950s Rome, a father and son walking through a crowded market, black and white film grain, Bicycle Thieves cinematic style.",
+    url: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?auto=format&fit=crop&q=80&w=600",
+    icon: Camera,
+    badgeColor: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300"
+  },
+  {
+    id: 46,
+    title: "Fellini Dreamscape",
+    tool: "Stable Diffusion XL",
+    category: "Italian Cinema",
+    prompt: "Surreal Fellini-style dreamscape, circus performers, elaborately costumed figures on a misty beach at night, ethereal lighting, vintage Italian cinema color grade.",
+    url: "https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?auto=format&fit=crop&q=80&w=600",
+    icon: Palette,
+    badgeColor: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300"
+  },
+
+  // ── CHINESE CINEMA ──
+  {
+    id: 47,
+    title: "Wuxia Sword Dance",
+    tool: "Midjourney V6",
+    category: "Chinese Cinema",
+    prompt: "Two wuxia warriors dueling mid-air above a bamboo forest, flowing white robes, sword trails, misty mountains below, Hero (Zhang Yimou) movie color palette, cinematic 8k.",
+    url: "https://images.unsplash.com/photo-1458682625221-3a45f8a844c7?auto=format&fit=crop&q=80&w=600",
+    icon: Star,
+    badgeColor: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300"
+  },
+  {
+    id: 48,
+    title: "Ancient Dynasty Palace",
+    tool: "DALL-E 3",
+    category: "Chinese Cinema",
+    prompt: "Majestic Tang dynasty imperial palace at golden hour, red pillars, paper lanterns, court ladies in hanfu, sweeping aerial view, Raise the Red Lantern film aesthetic.",
+    url: "https://images.unsplash.com/photo-1541873676-a18131494184?auto=format&fit=crop&q=80&w=600",
+    icon: Star,
+    badgeColor: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300"
+  },
+
+  // ── BRITISH CINEMA ──
+  {
+    id: 49,
+    title: "British Spy Thriller (Bond Style)",
+    tool: "Midjourney V6",
+    category: "British Cinema",
+    prompt: "James Bond style secret agent in a perfectly tailored suit on a rooftop in Monaco, Aston Martin below, silhouette against sunset, elegant cinematic framing, 8k.",
+    url: "https://images.unsplash.com/photo-1535295972055-1c762f4483e5?auto=format&fit=crop&q=80&w=600",
+    icon: Star,
+    badgeColor: "bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300"
+  },
+  {
+    id: 50,
+    title: "Dickensian Victorian London",
+    tool: "Stable Diffusion XL",
+    category: "British Cinema",
+    prompt: "Foggy Victorian London alley at night, gas lamp glow, cobblestones, ragamuffin children, horse-drawn carriage passing, Dickens era cinematic atmosphere, painterly style.",
+    url: "https://images.unsplash.com/photo-1486718448742-163732cd1544?auto=format&fit=crop&q=80&w=600",
+    icon: Camera,
+    badgeColor: "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+  },
+
+  // ── SPANISH CINEMA ──
+  {
+    id: 51,
+    title: "Almodóvar Color Drama",
+    tool: "Midjourney V6",
+    category: "Spanish Cinema",
+    prompt: "Vibrant Almodóvar-style scene, woman in vivid red dress in a bright Spanish kitchen, bold primary colors, emotional tension, Mediterranean light, cinematic poster quality.",
+    url: "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?auto=format&fit=crop&q=80&w=600",
+    icon: Palette,
+    badgeColor: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300"
+  },
+  {
+    id: 52,
+    title: "Pan's Labyrinth Fantasy",
+    tool: "DALL-E 3",
+    category: "Spanish Cinema",
+    prompt: "Dark fairy tale labyrinth, ancient stone walls covered in moss, magical glowing portal at center, faun creature silhouetted, Guillermo del Toro gothic fantasy style.",
+    url: "https://images.unsplash.com/photo-1544472147-386052f6d0f6?auto=format&fit=crop&q=80&w=600",
+    icon: Palette,
+    badgeColor: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300"
+  },
+
+  // ── NIGERIAN CINEMA (Nollywood) ──
+  {
+    id: 53,
+    title: "Nollywood Epic Kingdom",
+    tool: "Midjourney V6",
+    category: "Nollywood",
+    prompt: "African tribal king on throne in grand palace, vibrant Yoruba royal attire, elaborate beaded crown, golden ceremonial staff, warm torchlit interior, ultra realistic cinematic.",
+    url: "https://images.unsplash.com/photo-1599839575945-a9e5af0c3fa5?auto=format&fit=crop&q=80&w=600",
+    icon: Star,
+    badgeColor: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300"
+  },
+  {
+    id: 54,
+    title: "Lagos City Action Thriller",
+    tool: "Stable Diffusion XL",
+    category: "Nollywood",
+    prompt: "Gritty action scene in Lagos cityscape, hero in dramatic standoff on a busy market street, vibrant West African street details, cinematic motion blur, warm sunset.",
+    url: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&q=80&w=600",
+    icon: Star,
+    badgeColor: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300"
   }
 ];
 

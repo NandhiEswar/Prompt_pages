@@ -1,36 +1,27 @@
 import React, { useState, useEffect } from 'react';
-
-import { Mail, Check, Copy, Filter, ChevronDown } from 'lucide-react';
+import { Mail, Check } from 'lucide-react';
 import { EMAIL_TEMPLATES } from './data';
 
-const ChatGptIcon = ({ size = 20, className = "" }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM16.64 16.64C15.5 17.78 13.88 18.5 12 18.5C10.12 18.5 8.5 17.78 7.36 16.64C6.22 15.5 5.5 13.88 5.5 12C5.5 10.12 6.22 8.5 7.36 7.36C8.5 6.22 10.12 5.5 12 5.5C13.88 5.5 15.5 6.22 16.64 7.36C17.78 8.5 18.5 10.12 18.5 12C18.5 13.88 17.78 15.5 16.64 16.64Z" fill="currentColor" fillOpacity="0.2"/>
-    <path d="M12 4C7.58 4 4 7.58 4 12C4 16.42 7.58 20 12 20C16.42 20 20 16.42 20 12C20 7.58 16.42 4 12 4ZM12 18C8.69 18 6 15.31 6 12C6 8.69 8.69 6 12 6C15.31 6 18 8.69 18 12C18 15.31 15.31 18 12 18Z" fill="currentColor"/>
-    <path d="M12 8C9.79 8 8 9.79 8 12C8 14.21 9.79 16 12 16C14.21 16 16 14.21 16 12C16 9.79 14.21 8 12 8Z" fill="currentColor"/>
-  </svg>
-);
-
-const GeminiIcon = ({ size = 20, className = "" }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M8 12L12 8L16 12M12 16V8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-);
-
 const CATEGORIES = ['All', 'Cold Outreach', 'Follow Up', 'Sales', 'Networking', 'Job Search', 'Marketing'];
+
+const CAT_COLORS = {
+  'Cold Outreach': 'from-violet-500 to-purple-600',
+  'Follow Up':     'from-blue-500 to-cyan-600',
+  'Sales':         'from-emerald-500 to-teal-600',
+  'Networking':    'from-orange-500 to-amber-600',
+  'Job Search':    'from-pink-500 to-rose-600',
+  'Marketing':     'from-indigo-500 to-blue-600',
+  'default':       'from-slate-500 to-gray-600',
+};
 
 const EmailPage = ({ selectedId }) => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [copiedId, setCopiedId] = useState(null);
 
-  // Scroll to selected item when selectedId changes
   useEffect(() => {
     if (selectedId) {
-      const element = document.getElementById(`email-${selectedId}`);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
+      const el = document.getElementById(`email-${selectedId}`);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }, [selectedId]);
 
@@ -40,93 +31,97 @@ const EmailPage = ({ selectedId }) => {
     setTimeout(() => setCopiedId(null), 2000);
   };
 
-  const filteredEmails = selectedCategory === 'All' 
-    ? EMAIL_TEMPLATES 
-    : EMAIL_TEMPLATES.filter(email => email.category === selectedCategory);
+  const filteredEmails = selectedCategory === 'All'
+    ? EMAIL_TEMPLATES
+    : EMAIL_TEMPLATES.filter(e => e.category === selectedCategory);
+
+  const grad = (cat) => CAT_COLORS[cat] || CAT_COLORS['default'];
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-500">
-      
-      {/* Header Section */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm transition-colors">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-3">
-          <Mail className="text-purple-600 dark:text-purple-400" />
-          Email Templates
-        </h2>
-        <p className="text-gray-600 dark:text-gray-300">
-          Professional email templates for every situation. Copy, customize, and send.
-        </p>
+    <div className="space-y-6 fade-up">
+      {/* Header */}
+      <div className="glass rounded-2xl p-4 md:p-5 flex flex-wrap items-center gap-3">
+        <div className="p-2.5 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-600/10 border border-blue-500/20 shrink-0">
+          <Mail size={20} className="text-blue-400" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <h2 className="text-lg md:text-xl font-bold text-white">Email Templates</h2>
+          <p className="text-xs md:text-sm text-slate-400 mt-0.5">Professional templates for every situation. Copy, customise and send.</p>
+        </div>
+        <div className="stat-pill text-xs">{filteredEmails.length} templates</div>
       </div>
 
-      {/* Filter Section */}
-      <div className="flex overflow-x-auto pb-2 gap-2 scrollbar-hide">
-        {CATEGORIES.map((category) => (
-          <button
-            key={category}
-            onClick={() => setSelectedCategory(category)}
-            className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all border ${
-              selectedCategory === category
-                ? 'bg-purple-600 text-white border-purple-600 shadow-md'
-                : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700'
-            }`}
-          >
-            {category}
-          </button>
-        ))}
+      {/* Filters */}
+      <div className="relative -mx-4 px-4 md:mx-0 md:px-0">
+        <div className="flex overflow-x-auto pb-2 pt-1 gap-2.5 scrollbar-hide">
+          {CATEGORIES.map((cat, i) => (
+            <button
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`tag shrink-0 whitespace-nowrap fade-in-right ${selectedCategory === cat ? 'active' : ''}`}
+              style={{ animationDelay: `${i * 30}ms` }}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+        {/* Right fade gradient for mobile scroll hint */}
+        <div className="absolute top-0 right-0 bottom-0 w-8 bg-gradient-to-l from-[#0f0f1a] to-transparent pointer-events-none md:hidden" />
       </div>
 
-      {/* Templates Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredEmails.map((item) => (
-          <div 
-            key={item.id} 
+      {/* Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {filteredEmails.map((item, i) => (
+          <div
+            key={item.id}
             id={`email-${item.id}`}
-            className={`bg-white dark:bg-gray-800 border-2 rounded-xl overflow-hidden flex flex-col shadow-sm hover:shadow-md transition-all duration-300 group ${
-              selectedId === item.id 
-                ? 'border-purple-500 ring-2 ring-purple-200 dark:ring-purple-900 scale-[1.02]' 
-                : 'border-transparent dark:border-gray-700'
+            className={`prompt-card rounded-2xl overflow-hidden flex flex-col fade-up ${
+              selectedId === item.id ? 'ring-2 ring-violet-500' : ''
             }`}
+            style={{ animationDelay: `${i * 50}ms` }}
           >
-            
-            {/* Card Header */}
-            <div className="p-4 border-b border-gray-100 dark:border-gray-700">
-              <div className="flex justify-between items-start mb-2">
-                <span className="px-2 py-1 bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-300 text-xs font-bold uppercase rounded tracking-wide">
+            {/* Top colour stripe + category */}
+            <div className={`h-1.5 bg-gradient-to-r ${grad(item.category)}`} />
+
+            <div className="p-5 flex flex-col flex-1">
+              {/* Category + title */}
+              <div className="mb-3">
+                <span className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-bold text-white bg-gradient-to-r ${grad(item.category)} mb-2`}>
                   {item.category}
                 </span>
+                <h3 className="font-semibold text-white text-sm line-clamp-2">{item.title}</h3>
               </div>
-              <h3 className="font-bold text-lg text-gray-900 dark:text-white truncate" title={item.title}>
-                {item.title}
-              </h3>
-            </div>
 
-            {/* Content Preview */}
-            <div className="p-4 bg-gray-50 dark:bg-gray-900/50 flex flex-col flex-grow">
-              <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-3 text-sm font-mono text-gray-600 dark:text-gray-300 leading-relaxed mb-4 h-48 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 dark:scrollbar-thumb-gray-700">
-                {item.content}
+              {/* Email content preview */}
+              <div className="flex-1 bg-black/30 rounded-xl p-3 border border-white/10 mb-3 h-36 sm:h-40 overflow-y-auto scrollbar-hide">
+                <pre className="mono-content text-xs whitespace-pre-wrap leading-relaxed">{item.content}</pre>
               </div>
-              
-              <p className="text-xs text-gray-500 dark:text-gray-400 italic mb-4">
-                {item.description}
-              </p>
 
-              {/* Action Buttons */}
-              <div className="mt-auto grid grid-cols-2 gap-2 sm:gap-3">
-                <button 
-                  onClick={() => handleCopy(item.content, item.id, 'chatgpt')}
-                  className="flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-2 sm:px-3 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors border border-gray-200 dark:border-gray-600 shadow-sm"
-                >
-                  {copiedId?.id === item.id && copiedId?.type === 'chatgpt' ? <Check size={14} className="text-green-600 sm:w-4 sm:h-4" /> : <ChatGptIcon size={14} className="text-teal-600 sm:w-4 sm:h-4" />}
-                  {copiedId?.id === item.id && copiedId?.type === 'chatgpt' ? <span className="text-green-600 truncate">Copied!</span> : "ChatGPT"}
-                </button>
+              <p className="text-xs text-slate-400 italic mb-4 line-clamp-2">{item.description}</p>
 
-                <button 
-                  onClick={() => handleCopy(item.content, item.id, 'gemini')}
-                  className="flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-2 sm:px-3 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors border border-gray-200 dark:border-gray-600 shadow-sm"
-                >
-                  {copiedId?.id === item.id && copiedId?.type === 'gemini' ? <Check size={14} className="text-green-600 sm:w-4 sm:h-4" /> : <GeminiIcon size={14} className="text-blue-600 sm:w-4 sm:h-4" />}
-                  {copiedId?.id === item.id && copiedId?.type === 'gemini' ? <span className="text-green-600 truncate">Copied!</span> : "Gemini"}
-                </button>
+              {/* Buttons */}
+              <div className="grid grid-cols-2 gap-2 pt-3 border-t border-white/5">
+                {[
+                  { type: 'chatgpt', label: 'ChatGPT', abbr: 'GP', color: 'bg-teal-500' },
+                  { type: 'gemini',  label: 'Gemini',  abbr: 'GE', color: 'bg-blue-500' },
+                ].map(({ type, label, abbr, color }) => {
+                  const isCopied = copiedId?.id === item.id && copiedId?.type === type;
+                  return (
+                    <button
+                      key={type}
+                      onClick={() => handleCopy(item.content, item.id, type)}
+                      className={`flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-medium transition-all ${
+                        isCopied ? 'copy-btn-green' : 'copy-btn'
+                      }`}
+                    >
+                      {isCopied
+                        ? <Check size={12} />
+                        : <span className={`w-3.5 h-3.5 rounded-full ${color} flex items-center justify-center text-[8px] font-bold text-white`}>{abbr}</span>
+                      }
+                      {isCopied ? 'Copied!' : label}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
