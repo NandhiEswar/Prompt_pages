@@ -27,11 +27,11 @@ import { PROMPTS_DATA, searchAll } from './data';
 /* ─── Category colour map ─── */
 const CATEGORY_COLORS = {
   'Image Generation': 'from-violet-500 to-purple-600',
-  'Design':           'from-pink-500 to-rose-600',
-  'Copywriting':      'from-blue-500 to-cyan-600',
-  'Code':             'from-emerald-500 to-teal-600',
-  'Social Media':     'from-orange-500 to-amber-600',
-  'default':          'from-indigo-500 to-purple-600',
+  'Design': 'from-pink-500 to-rose-600',
+  'Copywriting': 'from-blue-500 to-cyan-600',
+  'Code': 'from-emerald-500 to-teal-600',
+  'Social Media': 'from-orange-500 to-amber-600',
+  'default': 'from-indigo-500 to-purple-600',
 };
 
 const getBg = (cat) => CATEGORY_COLORS[cat] || CATEGORY_COLORS['default'];
@@ -40,11 +40,10 @@ const getBg = (cat) => CATEGORY_COLORS[cat] || CATEGORY_COLORS['default'];
 const SidebarItem = ({ icon: Icon, label, active = false, onClick, count }) => (
   <button
     onClick={onClick}
-    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-200 text-left ${
-      active
+    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-200 text-left ${active
         ? 'sidebar-active text-white'
         : 'text-slate-400 hover:bg-white/5 hover:text-slate-200'
-    }`}
+      }`}
   >
     <div className={`p-1.5 rounded-lg ${active ? 'bg-violet-500/30' : 'bg-white/5'}`}>
       <Icon size={16} />
@@ -65,61 +64,61 @@ const PromptCard = ({ item, copiedId, handleCopy, index }) => {
 
   return (
     <div
-      className="prompt-card rounded-2xl overflow-hidden flex flex-col fade-up"
+      className="prompt-card rounded-xl md:rounded-2xl overflow-hidden flex flex-col fade-up min-w-0 w-full"
       style={{ animationDelay: `${index * 60}ms` }}
     >
       {/* Colour stripe / image */}
-      <div className={`relative bg-gradient-to-br ${gradClass} h-2`} />
+      <div className={`relative bg-gradient-to-br ${gradClass} h-1.5 md:h-2`} />
 
-      <div className="p-5 flex flex-col flex-1">
+      <div className="p-4 md:p-5 flex flex-col flex-1 min-w-0">
         {/* header row */}
         <div className="flex items-start justify-between gap-2 mb-3">
-          <h3 className="font-semibold text-sm text-white leading-snug line-clamp-2">
+          <h3 className="font-semibold text-xs md:text-sm text-white leading-snug line-clamp-2 min-w-0 overflow-hidden">
             {item.title}
           </h3>
-          <span className="badge shrink-0">{item.category}</span>
+          <span className="badge shrink-0 text-[9px] md:text-[0.65rem]">{item.category}</span>
         </div>
 
         {/* image preview OR text preview */}
         {item.contentType === 'image' ? (
-          <div className="w-full h-40 rounded-xl overflow-hidden mb-4 ring-1 ring-white/10">
+          <div className="w-full h-32 md:h-40 rounded-lg md:rounded-xl overflow-hidden mb-3 md:mb-4 ring-1 ring-white/10 shrink-0">
             <img src={item.content} alt={item.title} className="w-full h-full object-cover" />
           </div>
         ) : (
-          <div className="w-full h-40 rounded-xl mb-4 p-3 bg-black/30 ring-1 ring-white/10 overflow-hidden">
-            <p className="mono-content line-clamp-6">{item.content}</p>
+          <div className="w-full h-32 md:h-40 rounded-lg md:rounded-xl mb-3 md:mb-4 p-3 bg-black/30 ring-1 ring-white/10 overflow-hidden shrink-0">
+            <p className="mono-content text-[10px] md:text-[0.78rem] line-clamp-5 md:line-clamp-6 break-words overflow-hidden">{item.content}</p>
           </div>
         )}
 
         {/* description */}
-        <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed mb-4 flex-1">
+        <p className="text-[10px] md:text-xs text-slate-400 line-clamp-2 leading-relaxed mb-4 flex-1 break-words overflow-hidden">
           {item.description}
         </p>
 
         {/* action buttons */}
-        <div className="grid grid-cols-2 gap-2 pt-3 border-t border-white/5">
+        <div className="flex flex-row items-center gap-1.5 md:gap-2 pt-3 border-t border-white/5 mt-auto">
           {[
             { key: 'chatgpt', label: 'ChatGPT', abbr: 'GP', color: 'bg-teal-500' },
-            { key: 'gemini',  label: 'Gemini',  abbr: 'GE', color: 'bg-blue-500' },
+            { key: 'gemini', label: 'Gemini', abbr: 'GE', color: 'bg-blue-500' },
           ].map(({ key, label, abbr, color }) => {
             const isCopied = copiedId?.id === item.id && copiedId?.type === key;
             return (
-              <button
-                key={key}
-                onClick={() => handleCopy(copyText, item.id, key)}
-                className={`flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg text-xs font-medium transition-all duration-200 ${
-                  isCopied ? 'copy-btn-green' : 'copy-btn'
-                }`}
-              >
-                {isCopied ? (
-                  <Check size={12} />
-                ) : (
-                  <span className={`w-3.5 h-3.5 rounded-full ${color} flex items-center justify-center text-[8px] font-bold text-white`}>
-                    {abbr}
-                  </span>
-                )}
-                {isCopied ? 'Copied!' : label}
-              </button>
+              <div key={key} className="flex-1 min-w-0">
+                <button
+                  onClick={() => handleCopy(copyText, item.id, key)}
+                  className={`w-full flex items-center justify-center gap-1 py-2 px-1.5 md:px-3 rounded-lg text-[10px] md:text-xs font-medium transition-all duration-200 ${isCopied ? 'copy-btn-green' : 'copy-btn'
+                    }`}
+                >
+                  {isCopied ? (
+                    <Check size={11} />
+                  ) : (
+                    <span className={`w-3 h-3 rounded-full ${color} flex items-center justify-center text-[7px] font-bold text-white shrink-0`}>
+                      {abbr}
+                    </span>
+                  )}
+                  <span className="truncate">{isCopied ? 'Copied!' : label}</span>
+                </button>
+              </div>
             );
           })}
         </div>
@@ -140,12 +139,12 @@ const StatPill = ({ icon: Icon, value, label, color }) => (
 /* ─── Main App ─── */
 export default function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [copiedId, setCopiedId]   = useState(null);
-  const [searchQuery, setSearchQuery]       = useState('');
-  const [searchResults, setSearchResults]   = useState([]);
+  const [copiedId, setCopiedId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [selectedId, setSelectedId]         = useState(null);
-  const [showScrollTop, setShowScrollTop]   = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   /* Show/hide scroll-to-top button */
   useEffect(() => {
@@ -208,32 +207,32 @@ export default function App() {
   };
 
   const navItems = [
-    { route: 'all',      icon: LayoutGrid, label: 'All Prompts',  count: PROMPTS_DATA.length },
-    { route: 'images',   icon: ImageIcon,  label: 'Images',       count: 27 },
-    { route: 'emails',   icon: Mail,       label: 'Emails',       count: 18 },
-    { route: 'social',   icon: Share2,     label: 'Social Media', count: 8 },
-    { route: 'job',      icon: Briefcase,  label: 'Job Search',   count: 8 },
-    { route: 'code',     icon: Code,       label: 'Code',         count: 9 },
-    { route: 'settings', icon: Settings,   label: 'Settings' },
+    { route: 'all', icon: LayoutGrid, label: 'All Prompts', count: PROMPTS_DATA.length },
+    { route: 'images', icon: ImageIcon, label: 'Images', count: 27 },
+    { route: 'emails', icon: Mail, label: 'Emails', count: 18 },
+    { route: 'social', icon: Share2, label: 'Social Media', count: 8 },
+    { route: 'job', icon: Briefcase, label: 'Job Search', count: 8 },
+    { route: 'code', icon: Code, label: 'Code', count: 9 },
+    { route: 'settings', icon: Settings, label: 'Settings' },
   ];
 
   const pageTitles = {
-    all:      'All Prompts',
-    images:   'Image Generation',
-    emails:   'Email Templates',
-    social:   'Social Media',
-    job:      'Job Search',
-    code:     'Code Prompts',
+    all: 'All Prompts',
+    images: 'Image Generation',
+    emails: 'Email Templates',
+    social: 'Social Media',
+    job: 'Job Search',
+    code: 'Code Prompts',
     settings: 'Settings',
   };
 
   const typeColorMap = {
-    image:  'bg-violet-500/20 text-violet-300',
-    email:  'bg-blue-500/20 text-blue-300',
-    code:   'bg-emerald-500/20 text-emerald-300',
+    image: 'bg-violet-500/20 text-violet-300',
+    email: 'bg-blue-500/20 text-blue-300',
+    code: 'bg-emerald-500/20 text-emerald-300',
     social: 'bg-orange-500/20 text-orange-300',
-    job:    'bg-amber-500/20 text-amber-300',
-    all:    'bg-slate-500/20 text-slate-300',
+    job: 'bg-amber-500/20 text-amber-300',
+    all: 'bg-slate-500/20 text-slate-300',
   };
 
   const typeIconMap = { image: ImageIcon, email: Mail, code: Code, social: Share2, job: Briefcase, all: LayoutGrid };
@@ -244,8 +243,8 @@ export default function App() {
 
       {/* ── Decorative BG orbs ── */}
       <div className="orb w-96 h-96 bg-violet-600/20" style={{ top: '-80px', left: '-60px' }} />
-      <div className="orb w-80 h-80 bg-blue-600/15"   style={{ top: '40%', right: '-60px' }} />
-      <div className="orb w-64 h-64 bg-pink-600/10"   style={{ bottom: '0', left: '30%' }} />
+      <div className="orb w-80 h-80 bg-blue-600/15" style={{ top: '40%', right: '-60px' }} />
+      <div className="orb w-64 h-64 bg-pink-600/10" style={{ bottom: '0', left: '30%' }} />
 
       {/* ════ SIDEBAR (desktop) ════ */}
       <aside className="sidebar hidden md:flex w-60 flex-col fixed h-full z-20">
@@ -354,7 +353,7 @@ export default function App() {
         {/* ── Page content ── */}
         <div className="p-4 md:p-6 flex-1">
           {currentRoute === 'settings' ? (
-            <SettingsPage darkMode={true} toggleDarkMode={() => {}} />
+            <SettingsPage darkMode={true} toggleDarkMode={() => { }} />
           ) : currentRoute === 'images' ? (
             <ImagePage selectedId={selectedId} />
           ) : currentRoute === 'emails' ? (
@@ -369,10 +368,10 @@ export default function App() {
             <>
               {/* Stats row — wraps on mobile */}
               <div className="flex flex-wrap gap-2 mb-5">
-                <StatPill icon={Zap}       value={PROMPTS_DATA.length} label="prompts"   color="from-violet-600/30 to-purple-600/20" />
-                <StatPill icon={ImageIcon} value="54"                  label="images"    color="from-pink-600/30 to-rose-600/20" />
-                <StatPill icon={Mail}      value="18"                  label="emails"    color="from-blue-600/30 to-cyan-600/20" />
-                <StatPill icon={Code}      value="9"                   label="code"      color="from-emerald-600/30 to-teal-600/20" />
+                <StatPill icon={Zap} value={PROMPTS_DATA.length} label="prompts" color="from-violet-600/30 to-purple-600/20" />
+                <StatPill icon={ImageIcon} value="54" label="images" color="from-pink-600/30 to-rose-600/20" />
+                <StatPill icon={Mail} value="18" label="emails" color="from-blue-600/30 to-cyan-600/20" />
+                <StatPill icon={Code} value="9" label="code" color="from-emerald-600/30 to-teal-600/20" />
               </div>
 
               {/* Section heading */}
@@ -464,7 +463,7 @@ export default function App() {
           color: 'white',
           cursor: 'pointer',
         }}
-		onMouseEnter={e => e.currentTarget.style.boxShadow = '0 12px 40px rgba(124,58,237,0.75)'}
+        onMouseEnter={e => e.currentTarget.style.boxShadow = '0 12px 40px rgba(124,58,237,0.75)'}
         onMouseLeave={e => e.currentTarget.style.boxShadow = '0 8px 30px rgba(124,58,237,0.5)'}
       >
         <ArrowUp size={18} />

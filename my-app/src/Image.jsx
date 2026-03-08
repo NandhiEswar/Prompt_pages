@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Check, Maximize2, Palette, X } from 'lucide-react';
 import { IMAGE_DATA } from './data';
 
@@ -37,6 +37,53 @@ function Image({ selectedId }) {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [copiedId, setCopiedId] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
+
+  // Drag-to-scroll logic
+  const scrollRef = useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+  const [showLeftBlur, setShowLeftBlur] = useState(false);
+  const [showRightBlur, setShowRightBlur] = useState(true);
+
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setShowLeftBlur(scrollLeft > 10);
+      setShowRightBlur(scrollLeft < scrollWidth - clientWidth - 10);
+    }
+  };
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (el) {
+      el.addEventListener('scroll', handleScroll);
+      handleScroll(); // Initial check
+    }
+    return () => el?.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const onMouseDown = (e) => {
+    setIsDragging(true);
+    setStartX(e.pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft);
+  };
+
+  const onMouseLeave = () => {
+    setIsDragging(false);
+  };
+
+  const onMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const onMouseMove = (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX) * 2; // scroll-fast factor
+    scrollRef.current.scrollLeft = scrollLeft - walk;
+  };
 
   useEffect(() => {
     if (selectedId) {
@@ -77,82 +124,107 @@ function Image({ selectedId }) {
   return (
     <div className="space-y-6 fade-up">
       {/* Header */}
-      <div className="glass rounded-2xl p-4 md:p-5 flex flex-wrap items-center gap-3">
-        <div className="p-2.5 rounded-xl bg-gradient-to-br from-violet-500/20 to-purple-600/10 border border-violet-500/20 shrink-0">
-          <Palette size={20} className="text-violet-400" />
+      <div className="glass rounded-xl md:rounded-2xl p-3.5 md:p-5 flex flex-wrap items-center gap-3 max-w-full overflow-hidden">
+        <div className="p-2 md:p-2.5 rounded-lg md:rounded-xl bg-gradient-to-br from-violet-500/20 to-purple-600/10 border border-violet-500/20 shrink-0">
+          <Palette size={18} className="text-violet-400" />
         </div>
         <div className="flex-1 min-w-0">
-          <h2 className="text-lg md:text-xl font-bold text-white">Image Generation</h2>
-          <p className="text-xs md:text-sm text-slate-400 mt-0.5 line-clamp-1">High-quality AI image prompts from Midjourney, DALL-E &amp; more</p>
+          <h2 className="text-base md:text-xl font-bold text-white truncate">Image Generation</h2>
+          <p className="text-[10px] md:text-sm text-slate-400 mt-0.5 line-clamp-1">High-quality AI prompts for Midjourney & more</p>
         </div>
-        <div className="stat-pill text-xs">{filteredImages.length} prompts</div>
+        <div className="stat-pill text-[10px] md:text-xs">{filteredImages.length} items</div>
       </div>
 
-      {/* Filter tags */}
-      <div className="relative -mx-4 px-4 md:mx-0 md:px-0">
-        <div className="flex overflow-x-auto pb-2 pt-1 gap-2.5 scrollbar-hide">
+      {/* Filter tags with Drag-to-Scroll */}
+      <div className="relative group/scroll max-w-full overflow-hidden">
+        {/* Left Blur Indicator */}
+        <div 
+          className={`absolute left-0 top-0 bottom-0 w-12 md:w-16 z-10 pointer-events-none transition-opacity duration-300 bg-gradient-to-r from-[#0f0f1a] to-transparent ${showLeftBlur ? 'opacity-100' : 'opacity-0'}`}
+        />
+        
+        {/* Scroll Container */}
+        <div 
+          ref={scrollRef}
+          onMouseDown={onMouseDown}
+          onMouseLeave={onMouseLeave}
+          onMouseUp={onMouseUp}
+          onMouseMove={onMouseMove}
+          className={`flex overflow-x-auto pb-4 pt-1 gap-2 md:gap-2.5 scrollbar-hide select-none ${isDragging ? 'cursor-grabbing active:scale-[0.995]' : 'cursor-grab'} transition-transform duration-200`}
+        >
           {CATEGORIES.map((cat, i) => (
             <button
               key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`tag shrink-0 whitespace-nowrap fade-in-right ${selectedCategory === cat ? 'active' : ''}`}
+              onClick={() => !isDragging && setSelectedCategory(cat)}
+              className={`tag shrink-0 whitespace-nowrap fade-in-right ${selectedCategory === cat ? 'active scale-105 ring-1 ring-violet-500/50' : 'opacity-70 hover:opacity-100'}`}
               style={{ animationDelay: `${i * 30}ms` }}
             >
               {cat}
             </button>
           ))}
         </div>
-        {/* Right fade gradient for mobile scroll hint */}
-        <div className="absolute top-0 right-0 bottom-0 w-8 bg-gradient-to-l from-[#0f0f1a] to-transparent pointer-events-none md:hidden" />
+
+        {/* Right Blur Indicator */}
+        <div 
+          className={`absolute right-0 top-0 bottom-0 w-12 md:w-16 z-10 pointer-events-none transition-opacity duration-300 bg-gradient-to-l from-[#0f0f1a] to-transparent ${showRightBlur ? 'opacity-100' : 'opacity-0'}`}
+        />
       </div>
 
+
       {/* Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 w-full max-w-full">
         {filteredImages.map((item, i) => (
           <div
             key={item.id}
             id={`image-${item.id}`}
-            className={`relative flex flex-col bg-white/5 border border-white/5 rounded-2xl overflow-hidden group fade-up transition-all duration-300 ${selectedId === item.id ? 'ring-2 ring-violet-500 ring-offset-1 ring-offset-transparent' : ''
+            className={`relative flex flex-col bg-white/5 border border-white/5 rounded-xl md:rounded-2xl overflow-hidden group fade-up transition-all duration-300 w-full min-w-0 ${selectedId === item.id ? 'ring-2 ring-violet-500 ring-offset-1 ring-offset-transparent' : ''
               }`}
-            style={{ animationDelay: `${i * 50}ms` }}
+            style={{ animationDelay: `${i * 30}ms` }}
           >
             {/* Image */}
-            <div className="relative h-36 sm:h-44 overflow-hidden">
+            <div className="relative h-32 sm:h-44 overflow-hidden shrink-0">
               <img
                 src={item.url}
                 alt={item.title}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
               />
               {/* overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
               {/* tool badge */}
-              <span className="absolute bottom-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-black/50 backdrop-blur-sm border border-white/10 text-white">
-                <item.icon size={11} />
+              <span className="absolute bottom-2 left-2 flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-semibold bg-black/60 backdrop-blur-md border border-white/10 text-white">
+                <item.icon size={8} />
                 {item.tool}
               </span>
 
               {/* category badge */}
-              <span className={`absolute top-3 left-3 px-2 py-0.5 rounded-full text-xs font-bold text-white bg-gradient-to-r ${grad(item.category)} shadow-sm`}>
+              <span className={`absolute top-2 left-2 px-2 py-0.5 rounded-full text-[9px] font-bold text-white bg-gradient-to-r ${grad(item.category)} shadow-lg`}>
                 {item.category}
               </span>
 
               {/* expand btn */}
               <button
                 onClick={() => setSelectedImage(item)}
-                className="absolute top-3 right-3 p-1.5 rounded-lg bg-black/40 backdrop-blur-sm text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60"
+                className="absolute top-2 right-2 p-1 rounded-lg bg-black/40 backdrop-blur-sm text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/60"
               >
-                <Maximize2 size={14} />
+                <Maximize2 size={12} />
               </button>
             </div>
 
             {/* Card body */}
-            <div className="p-4">
-              <h3 className="font-semibold text-sm text-white mb-2 line-clamp-1">{item.title}</h3>
-              <p className="mono-content line-clamp-3 mb-4">{item.prompt}</p>
-              <div className="grid grid-cols-2 gap-2 pt-3 border-t border-white/5">
-                <CopyBtn item={item} type="chatgpt" label="ChatGPT" abbr="GP" color="bg-teal-500" />
-                <CopyBtn item={item} type="gemini" label="Gemini" abbr="GE" color="bg-blue-500" />
+            <div className="p-3 md:p-4 flex-1 flex flex-col min-w-0">
+              <h3 className="font-semibold text-xs md:text-sm text-white mb-1 md:mb-1.5 line-clamp-1 truncate">{item.title}</h3>
+              <p className="mono-content text-[10px] md:text-[0.78rem] line-clamp-2 md:line-clamp-3 mb-3 text-slate-400 leading-relaxed break-words overflow-hidden">
+                {item.prompt}
+              </p>
+              
+              <div className="flex flex-row items-center gap-1.5 md:gap-2 mt-auto pt-2.5 md:pt-3 border-t border-white/5">
+                <div className="flex-1 min-w-0">
+                  <CopyBtn item={item} type="chatgpt" label="ChatGPT" abbr="GP" color="bg-teal-500" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <CopyBtn item={item} type="gemini" label="Gemini" abbr="GE" color="bg-blue-500" />
+                </div>
               </div>
             </div>
           </div>
